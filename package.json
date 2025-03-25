@@ -2,7 +2,7 @@
   "name": "portfolio",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://adityamalode.github.io/portfolio",
+  "homepage": "https://www.adityamalode.com",
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@testing-library/jest-dom": "^5.17.0",
@@ -48,7 +48,6 @@
     ]
   },
   "devDependencies": {
-    "@types/react-icons": "^2.2.7",
     "autoprefixer": "^10.4.17",
     "gh-pages": "^6.1.1",
     "postcss": "^8.4.35",

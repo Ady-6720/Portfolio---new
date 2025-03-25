@@ -40,7 +40,7 @@ const projects: Project[] = [
 
 const Projects: React.FC = () => {
   return (
-    <section id="projects" className="section-padding overflow-hidden">
+    <section id="projects" className="section-padding">
       <div className="container-custom">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -52,15 +52,15 @@ const Projects: React.FC = () => {
           Featured Projects
         </motion.h2>
 
-        <div className="flex overflow-x-auto gap-6 pb-6 snap-x snap-mandatory hide-scrollbar">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
               viewport={{ once: true }}
-              className="flex-none w-[85vw] md:w-[600px] snap-center group relative bg-dark/50 rounded-lg md:rounded-xl p-4 md:p-6 hover:bg-dark/70 transition-colors duration-300"
+              className="group relative bg-dark/50 rounded-lg md:rounded-xl p-4 md:p-6 hover:bg-dark/70 transition-colors duration-300"
             >
               <h3 className="text-base md:text-xl font-bold mb-2">{project.title}</h3>
               <p className="text-xs md:text-base text-gray-300 mb-3 md:mb-4">{project.description}</p>
