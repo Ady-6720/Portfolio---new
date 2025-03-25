@@ -1,46 +1,76 @@
 import React, { useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
 
 const ParallaxBackground: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 1000], [0, 200]);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+
+    let rafId: number;
+    let mouseX = 0;
+    let mouseY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let scrollY = 0;
+
     const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current) return;
-      
-      const { clientX, clientY } = e;
-      const { width, height } = containerRef.current.getBoundingClientRect();
-      
-      const xPercent = (clientX / width - 0.5) * 20;
-      const yPercent = (clientY / height - 0.5) * 20;
-      
-      containerRef.current.style.transform = `perspective(1000px) rotateX(${yPercent}deg) rotateY(${xPercent}deg)`;
+      const rect = grid.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    const handleScroll = () => {
+      scrollY = window.scrollY;
+    };
+
+    const animate = () => {
+      // Smooth interpolation for grid movement
+      currentX += (mouseX - currentX) * 0.1;
+      currentY += (mouseY - currentY) * 0.1;
+
+      // Move the grid background based on cursor position and subtle scroll
+      grid.style.backgroundPosition = `
+        ${currentX * 0.05 - scrollY * 0.03}px 
+        ${currentY * 0.05 - scrollY * 0.03}px
+      `;
+
+      rafId = requestAnimationFrame(animate);
+    };
+
+    // Only add mouse tracking on desktop
+    if (window.matchMedia('(min-width: 768px)').matches) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('scroll', handleScroll);
+      animate();
+    }
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
-    <motion.div
-      ref={containerRef}
-      className="fixed inset-0 -z-10 overflow-hidden"
-      style={{ y }}
-    >
-      <div className="absolute inset-0 bg-dark">
-        <div className="absolute inset-0 grid grid-cols-20 grid-rows-20 gap-1">
-          {Array.from({ length: 400 }).map((_, i) => (
-            <div
-              key={i}
-              className="bg-primary/5 rounded-sm hover:bg-primary/10 transition-colors duration-300"
-            />
-          ))}
-        </div>
-      </div>
-    </motion.div>
+    <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none">
+      <div
+        ref={gridRef}
+        className="absolute inset-0 w-[200vw] h-[200vh] top-[-50vh] left-[-50vw]"
+        style={{
+          backgroundColor: '#000000',
+          backgroundImage: `
+            linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.05) 75%, rgba(255, 255, 255, 0.05) 76%, transparent 77%, transparent),
+            linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.05) 75%, rgba(255, 255, 255, 0.05) 76%, transparent 77%, transparent)
+          `,
+          backgroundSize: '50px 50px',
+          willChange: 'background-position',
+          maskImage: 'radial-gradient(circle at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0.7) 70%, rgba(0,0,0,0) 100%)',
+          WebkitMaskImage: 'radial-gradient(circle at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0.7) 70%, rgba(0,0,0,0) 100%)',
+        }}
+      />
+    </div>
   );
 };
 
-export default ParallaxBackground; 
+export default ParallaxBackground;

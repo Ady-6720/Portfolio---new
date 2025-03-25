@@ -8,90 +8,100 @@ interface Project {
   tech: string[];
   github: string;
   demo: string;
+  funFact: string;
 }
 
 const projects: Project[] = [
   {
-    title: 'Project 1',
-    description: 'A full-stack web application built with React and Node.js, featuring real-time updates and user authentication.',
-    tech: ['React', 'Node.js', 'MongoDB', 'Socket.io'],
-    github: 'https://github.com/yourusername/project1',
-    demo: 'https://project1-demo.com',
+    title: 'MindBridge – Neurodiversity Support App',
+    description: `An Android app designed to empower users with autism and ADHD by providing accessible cognitive support tools. Features personalized UI elements and activity tracking tailored to individual sensory and cognitive needs.`,
+    tech: ['Android', 'Kotlin', 'GraphQL', 'Firebase OAuth 2.0'],
+    github: 'https://github.com/Ady-6720/MindBridge',
+    demo: 'https://www.adityamalode.com/mindbridge',
+    funFact: `While building this app, I learned how overlooked accessibility can be. Designing for neurodiverse users made me rethink what 'intuitive UI' actually means. Empathy became a key part of my design process.`,
   },
   {
-    title: 'Project 2',
-    description: 'An AI-powered analytics dashboard that processes and visualizes complex data sets in real-time.',
-    tech: ['Python', 'TensorFlow', 'React', 'D3.js'],
-    github: 'https://github.com/yourusername/project2',
-    demo: 'https://project2-demo.com',
+    title: 'AI StudyBuddy – Adaptive Learning Assistant',
+    description: `A cross-platform mobile app that delivers AI-generated study plans based on real-time learning data. Uses OpenAI to personalize content and Firebase to store and sync user data across sessions.`,
+    tech: ['React Native', 'TypeScript', 'OpenAI API', 'Firebase'],
+    github: 'https://github.com/Ady-6720/AI-StudyBuddy',
+    demo: 'https://www.adityamalode.com/studybuddy',
+    funFact: `Integrating AI felt like coding magic — but it also taught me the importance of grounding tech in real learning psychology. Also learned to debug OpenAI prompts like a mad scientist.`,
   },
   {
-    title: 'Project 3',
-    description: 'A mobile-first e-commerce platform with advanced filtering and search capabilities.',
-    tech: ['Next.js', 'TypeScript', 'TailwindCSS', 'Stripe'],
-    github: 'https://github.com/yourusername/project3',
-    demo: 'https://project3-demo.com',
+    title: 'Asynchronous Multicast Distributed System',
+    description: `Designed and built a distributed communication system in Java using REST APIs and multithreading. Ensures reliable message delivery across multiple concurrent nodes, with built-in fault tolerance.`,
+    tech: ['Java', 'Multithreading', 'REST APIs', 'Distributed Systems'],
+    github: 'https://github.com/Ady-6720/Async-Multicast-System',
+    demo: '',
+    funFact: `This project gave me a deep respect for race conditions and deadlocks. Also: multithreading errors are like cockroaches — you fix one and ten more crawl out.`,
   },
 ];
 
 const Projects: React.FC = () => {
   return (
-    <section id="projects" className="section-padding">
+    <section id="projects" className="section-padding overflow-hidden">
       <div className="container-custom">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-3xl font-bold mb-12 text-center"
+          className="text-xl md:text-3xl font-bold mb-8 md:mb-12 text-center"
         >
           Featured Projects
         </motion.h2>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div className="flex overflow-x-auto gap-6 pb-6 snap-x snap-mandatory hide-scrollbar">
           {projects.map((project, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
               viewport={{ once: true }}
-              className="group relative bg-dark/50 rounded-xl p-6 hover:bg-dark/70 transition-colors duration-300"
+              className="flex-none w-[85vw] md:w-[600px] snap-center group relative bg-dark/50 rounded-lg md:rounded-xl p-4 md:p-6 hover:bg-dark/70 transition-colors duration-300"
             >
-              <h3 className="text-xl font-bold mb-4">{project.title}</h3>
-              <p className="text-gray-300 mb-4">{project.description}</p>
-              
-              <div className="flex flex-wrap gap-2 mb-6">
+              <h3 className="text-base md:text-xl font-bold mb-2">{project.title}</h3>
+              <p className="text-xs md:text-base text-gray-300 mb-3 md:mb-4">{project.description}</p>
+
+              <div className="flex flex-wrap gap-1.5 md:gap-2 mb-3 md:mb-4">
                 {project.tech.map((tech, techIndex) => (
                   <span
                     key={techIndex}
-                    className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm"
+                    className="px-2 md:px-3 py-0.5 md:py-1 bg-primary/10 text-primary rounded-full text-[10px] md:text-sm"
                   >
                     {tech}
                   </span>
                 ))}
               </div>
-              
-              <div className="flex gap-4">
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-gray-300 hover:text-primary transition-colors"
-                >
-                  <CodeBracketIcon className="w-5 h-5" />
-                  <span>GitHub</span>
-                </a>
-                <a
-                  href={project.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-gray-300 hover:text-primary transition-colors"
-                >
-                  <ArrowTopRightOnSquareIcon className="w-5 h-5" />
-                  <span>Live Demo</span>
-                </a>
+
+              <div className="flex items-center gap-4 mb-3 md:mb-4">
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 md:gap-2 text-gray-300 hover:text-primary transition-colors"
+                  >
+                    <CodeBracketIcon className="w-4 h-4 md:w-5 md:h-5" />
+                    <span className="text-xs md:text-sm">GitHub</span>
+                  </a>
+                )}
+                {project.demo && (
+                  <a
+                    href={project.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 md:gap-2 text-gray-300 hover:text-primary transition-colors"
+                  >
+                    <ArrowTopRightOnSquareIcon className="w-4 h-4 md:w-5 md:h-5" />
+                    <span className="text-xs md:text-sm">Live Demo</span>
+                  </a>
+                )}
               </div>
+
+              <p className="italic text-[10px] md:text-sm text-gray-400">💡 {project.funFact}</p>
             </motion.div>
           ))}
         </div>
@@ -100,4 +110,4 @@ const Projects: React.FC = () => {
   );
 };
 
-export default Projects; 
+export default Projects;

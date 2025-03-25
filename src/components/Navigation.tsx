@@ -54,7 +54,7 @@ const Navigation: React.FC = () => {
           </a>
           
           <div className="hidden md:flex space-x-8">
-            {['About', 'Projects', 'Experience', 'Skills', 'Contact'].map((item) => (
+            {['About', 'Experience', 'Projects', 'Skills', 'Contact'].map((item) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase())}
