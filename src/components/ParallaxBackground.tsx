@@ -29,10 +29,15 @@ const ParallaxBackground: React.FC = () => {
       currentX += (mouseX - currentX) * 0.1;
       currentY += (mouseY - currentY) * 0.1;
 
-      // Move the grid background based on cursor position and subtle scroll
+      // Calculate rotation based on scroll position
+      const rotationAngle = (scrollY * 0.02) % 360;
+      const scale = 1 + Math.sin(scrollY * 0.002) * 0.1; // Scale between 0.9 and 1.1
+
+      // Move the grid background based on cursor position and scroll
+      grid.style.transform = `rotate(${rotationAngle}deg) scale(${scale})`;
       grid.style.backgroundPosition = `
-        ${currentX * 0.05 - scrollY * 0.03}px 
-        ${currentY * 0.05 - scrollY * 0.03}px
+        ${currentX * 0.05 + scrollY * 0.1}px 
+        ${currentY * 0.05 + scrollY * 0.1}px
       `;
 
       rafId = requestAnimationFrame(animate);
@@ -56,7 +61,7 @@ const ParallaxBackground: React.FC = () => {
     <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none">
       <div
         ref={gridRef}
-        className="absolute inset-0 w-[200vw] h-[200vh] top-[-50vh] left-[-50vw]"
+        className="absolute inset-0 w-[200vw] h-[200vh] top-[-50vh] left-[-50vw] origin-center transition-transform duration-100"
         style={{
           backgroundColor: '#000000',
           backgroundImage: `
@@ -64,7 +69,7 @@ const ParallaxBackground: React.FC = () => {
             linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.05) 75%, rgba(255, 255, 255, 0.05) 76%, transparent 77%, transparent)
           `,
           backgroundSize: '50px 50px',
-          willChange: 'background-position',
+          willChange: 'transform, background-position',
           maskImage: 'radial-gradient(circle at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0.7) 70%, rgba(0,0,0,0) 100%)',
           WebkitMaskImage: 'radial-gradient(circle at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0.7) 70%, rgba(0,0,0,0) 100%)',
         }}
