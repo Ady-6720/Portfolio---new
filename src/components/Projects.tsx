@@ -47,12 +47,18 @@ const Projects: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-xl md:text-3xl font-bold mb-8 md:mb-12 text-center"
+          className="section-title"
         >
           Featured Projects
         </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <motion.div 
+          className="project-cards"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+        >
           {projects.map((project, index) => (
             <motion.div
               key={index}
@@ -60,29 +66,26 @@ const Projects: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
               viewport={{ once: true }}
-              className="group relative bg-dark/50 rounded-lg md:rounded-xl p-4 md:p-6 hover:bg-dark/70 transition-colors duration-300"
+              className="project-card"
             >
-              <h3 className="text-base md:text-xl font-bold mb-2">{project.title}</h3>
-              <p className="text-xs md:text-base text-gray-300 mb-3 md:mb-4">{project.description}</p>
+              <h3 className="project-title">{project.title}</h3>
+              <p className="project-description">{project.description}</p>
 
-              <div className="flex flex-wrap gap-1.5 md:gap-2 mb-3 md:mb-4">
+              <div className="project-tech-stack">
                 {project.tech.map((tech, techIndex) => (
-                  <span
-                    key={techIndex}
-                    className="px-2 md:px-3 py-0.5 md:py-1 bg-primary/10 text-primary rounded-full text-[10px] md:text-sm"
-                  >
+                  <span key={techIndex} className="project-tech-tag">
                     {tech}
                   </span>
                 ))}
               </div>
 
-              <div className="flex items-center gap-4 mb-3 md:mb-4">
+              <div className="project-links">
                 {project.github && (
                   <a
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 md:gap-2 text-gray-300 hover:text-primary transition-colors"
+                    className="project-link"
                   >
                     <CodeBracketIcon className="w-4 h-4 md:w-5 md:h-5" />
                     <span className="text-xs md:text-sm">GitHub</span>
@@ -93,7 +96,7 @@ const Projects: React.FC = () => {
                     href={project.demo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 md:gap-2 text-gray-300 hover:text-primary transition-colors"
+                    className="project-link"
                   >
                     <ArrowTopRightOnSquareIcon className="w-4 h-4 md:w-5 md:h-5" />
                     <span className="text-xs md:text-sm">Live Demo</span>
@@ -101,10 +104,10 @@ const Projects: React.FC = () => {
                 )}
               </div>
 
-              <p className="italic text-[10px] md:text-sm text-gray-400">💡 {project.funFact}</p>
+              <p className="project-fun-fact">💡 {project.funFact}</p>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

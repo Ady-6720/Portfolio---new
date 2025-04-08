@@ -15,6 +15,7 @@ interface Experience {
   points: string[];
   techTags: TechTag[];
   funFact: string;
+  isCurrent?: boolean;
 }
 
 const experiences: Experience[] = [
@@ -47,6 +48,7 @@ const experiences: Experience[] = [
     ],
     funFact:
       'Discovered that documentation and coffee are both critical to shipping stable software at scale.',
+    isCurrent: true,
   },
   {
     title: 'Software Developer',
@@ -96,99 +98,59 @@ const getCategoryColor = (category: TechTag['category']) => {
 const Experience: React.FC = () => {
   return (
     <section id="experience" className="section-padding">
-      <div className="container-custom max-w-5xl mx-auto">
+      <div className="container-custom">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-xl md:text-3xl font-bold mb-8 md:mb-16 text-center"
+          className="section-title"
         >
-          Work Experience
+          Experience
         </motion.h2>
 
-        <div className="relative">
-          {/* Vertical timeline line */}
-          <div className="absolute left-0 md:left-1/2 top-0 h-full w-px bg-gradient-to-b from-primary/50 via-primary/20 to-transparent" />
-
-          {experiences.map((exp, index) => (
+        <div className="space-y-6">
+          {experiences.map((exp, i) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
               viewport={{ once: true }}
-              className="relative mb-8 md:mb-16 last:mb-0"
+              className="relative group"
             >
-              {/* Timeline dot with pulse effect */}
-              <div className="absolute left-0 md:left-1/2 -translate-x-1/2 top-0 flex items-center justify-center">
-                <div className="w-2.5 h-2.5 md:w-4 md:h-4 rounded-full bg-primary" />
-                <div className="absolute w-2.5 h-2.5 md:w-4 md:h-4 rounded-full bg-primary animate-ping opacity-20" />
-              </div>
-
-              {/* Content card */}
-              <div className={`ml-5 md:ml-0 ${
-                index % 2 === 0 ? 'md:mr-[50%] md:pr-16' : 'md:ml-[50%] md:pl-16'
-              }`}>
-                <div className="bg-dark/30 backdrop-blur-lg rounded-lg md:rounded-xl p-3 md:p-6 border border-primary/10 hover:border-primary/20 transition-colors">
-                  {/* Header */}
-                  <div className="flex flex-col gap-0.5 md:gap-2 mb-3 md:mb-6">
-                    <div className="flex items-start justify-between flex-col md:flex-row gap-0.5 md:gap-2">
-                      <h3 className="text-sm md:text-xl font-bold text-primary">{exp.title}</h3>
-                      <span className="text-[10px] md:text-sm text-gray-400 whitespace-nowrap">
-                        {exp.dateRange}
-                      </span>
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 p-[1px]">
+                <div className="relative bg-dark/95 backdrop-blur-sm rounded-2xl p-4 md:p-6">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4">
+                    <div>
+                      <h3 className="text-lg md:text-xl font-display font-semibold text-blue-400">
+                        {exp.title}
+                      </h3>
+                      <p className="text-sm md:text-base text-gray-400">
+                        {exp.organization}
+                      </p>
                     </div>
-                    <div className="flex items-start justify-between flex-col md:flex-row gap-0.5 md:gap-1">
-                      <p className="text-xs md:text-base text-gray-300">{exp.organization}</p>
-                      <span className="text-[10px] md:text-sm text-gray-400">{exp.location}</span>
+                    <div className="flex items-center gap-4 text-sm">
+                      <div className="flex items-center gap-3">
+                        <span className="text-gray-500">{exp.location}</span>
+                        {exp.isCurrent && (
+                          <div className="flex items-center gap-1.5 bg-green-500/10 px-2 py-0.5 rounded-full">
+                            <div className="relative flex h-1.5 w-1.5">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
+                            </div>
+                            <span className="text-green-400 text-xs font-medium">Currently Working</span>
+                          </div>
+                        )}
+                      </div>
+                      <span className="text-gray-600">{exp.dateRange}</span>
                     </div>
                   </div>
-
-                  {/* Overview */}
-                  <p className="text-[11px] md:text-base text-gray-300 mb-3 md:mb-6 leading-relaxed">
-                    {exp.overview}
-                  </p>
-
-                  {/* Key achievements */}
-                  <div className="space-y-1.5 md:space-y-3 mb-3 md:mb-6">
+                  <ul className="list-disc list-inside space-y-1 text-sm md:text-base text-gray-400">
                     {exp.points.map((point, idx) => (
-                      <motion.div
-                        key={idx}
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.3, delay: idx * 0.1 }}
-                        viewport={{ once: true }}
-                        className="flex items-start gap-1.5 md:gap-2"
-                      >
-                        <span className="text-primary mt-0.5 md:mt-1 text-[10px] md:text-sm">▹</span>
-                        <p className="text-[11px] md:text-sm text-gray-300">{point}</p>
-                      </motion.div>
+                      <li key={idx}>{point}</li>
                     ))}
-                  </div>
-
-                  {/* Tech stack */}
-                  <div className="flex flex-wrap gap-1 md:gap-2 mb-3 md:mb-4">
-                    {exp.techTags.map((tag, i) => (
-                      <motion.span
-                        key={i}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.2, delay: i * 0.05 }}
-                        viewport={{ once: true }}
-                        className={`px-1.5 md:px-3 py-0.5 md:py-1 rounded-full text-[9px] md:text-xs font-medium ${getCategoryColor(
-                          tag.category
-                        )}`}
-                      >
-                        {tag.name}
-                      </motion.span>
-                    ))}
-                  </div>
-
-                  {/* Fun fact */}
-                  <div className="text-[10px] md:text-sm text-gray-400 italic border-t border-gray-800/50 pt-2 md:pt-4 mt-2 md:mt-4">
-                    💡 {exp.funFact}
-                  </div>
+                  </ul>
                 </div>
               </div>
             </motion.div>

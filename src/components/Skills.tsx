@@ -1,116 +1,139 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import {
-  FaJava,
-  FaAws,
-  FaReact,
-  FaDocker,
-  FaNodeJs,
-  FaGitAlt,
-  FaTools,
-  FaBrain,
-} from 'react-icons/fa';
-import {
-  SiPostgresql,
-  SiSpringboot,
-  SiNextdotjs,
-  SiApachekafka,
-  SiThreedotjs,
-} from 'react-icons/si';
-
-interface Skill {
-  name: string;
-  icon: any;
-  level: number;
-}
+import { FaCode, FaTools, FaCloud, FaDatabase, FaCogs } from 'react-icons/fa';
+import type { IconType } from 'react-icons';
 
 interface SkillCategory {
   title: string;
-  skills: Skill[];
+  skills: string[];
+  icon: IconType;
+  span?: 'col' | 'row' | 'both';
+  color: string;
 }
 
 const skillCategories: SkillCategory[] = [
   {
-    title: '💪 Tools I Use Like Muscle Memory',
-    skills: [
-      { name: 'Java', icon: FaJava, level: 5 },
-      { name: 'PostgreSQL', icon: SiPostgresql, level: 4 },
-      { name: 'AWS', icon: FaAws, level: 4 },
-      { name: 'React', icon: FaReact, level: 5 },
-      { name: 'Docker', icon: FaDocker, level: 4 },
-      { name: 'Node.js', icon: FaNodeJs, level: 3 },
-      { name: 'Git & GitHub', icon: FaGitAlt, level: 5 },
-    ],
+    title: 'Languages',
+    skills: ['Java', 'JavaScript', 'TypeScript', 'Python', 'SQL', 'C++'],
+    icon: FaCode,
+    span: 'col',
+    color: 'from-blue-500/20 to-cyan-500/20 text-blue-400',
   },
   {
-    title: '🧪 Currently Exploring',
-    skills: [
-      { name: 'Next.js', icon: SiNextdotjs, level: 3 },
-      { name: 'Kafka + Debezium', icon: SiApachekafka, level: 2 },
-      { name: 'Framer Motion', icon: FaBrain, level: 3 },
-      { name: 'Three.js', icon: SiThreedotjs, level: 2 },
-      { name: 'Neurodiverse UI Design', icon: FaTools, level: 3 },
-    ],
+    title: 'Frameworks & Tools',
+    skills: ['Spring Boot', 'Node.js', 'React', 'Express.js', 'Docker', 'Git', 'Postman', 'Apache'],
+    icon: FaTools,
+    span: 'both',
+    color: 'from-green-500/20 to-emerald-500/20 text-green-400',
+  },
+  {
+    title: 'Cloud & DevOps',
+    skills: ['AWS (EC2, S3, Lambda)', 'Kubernetes', 'Jenkins', 'CI/CD', 'Linux', 'Nginx'],
+    icon: FaCloud,
+    color: 'from-purple-500/20 to-pink-500/20 text-purple-400',
+  },
+  {
+    title: 'Databases',
+    skills: ['PostgreSQL', 'MySQL', 'MongoDB', 'HBase', 'NoSQL'],
+    icon: FaDatabase,
+    span: 'row',
+    color: 'from-orange-500/20 to-red-500/20 text-orange-400',
+  },
+  {
+    title: 'Other',
+    skills: ['Agile', 'REST APIs', 'RBAC', 'Jira', 'Outlook'],
+    icon: FaCogs,
+    color: 'from-yellow-500/20 to-amber-500/20 text-yellow-400',
   },
 ];
 
-const scaleMap = {
-  1: 'w-14 h-14 md:w-24 md:h-24 text-[8px] md:text-xs',
-  2: 'w-16 h-16 md:w-28 md:h-28 text-[9px] md:text-sm',
-  3: 'w-18 h-18 md:w-32 md:h-32 text-[10px] md:text-base',
-  4: 'w-20 h-20 md:w-36 md:h-36 text-[11px] md:text-lg',
-  5: 'w-22 h-22 md:w-40 md:h-40 text-xs md:text-xl',
-};
-
 const Skills: React.FC = () => {
+  const getSkillSpan = (skill: string) => {
+    const length = skill.length;
+    if (length > 20) return 'col-span-6'; // Full width for very long text
+    if (length > 15) return 'col-span-4'; // 2/3 width for long text
+    if (length > 10) return 'col-span-3'; // Half width for medium text
+    if (length > 5) return 'col-span-2'; // 1/3 width for short text
+    return 'col-span-1'; // Smallest width for very short text
+  };
+
   return (
-    <section id="skills" className="section-padding text-white">
-      <div className="container-custom">
+    <section id="skills" className="py-6 px-2">
+      <div className="max-w-7xl mx-auto">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-lg md:text-4xl font-extrabold mb-6 md:mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500"
+          className="text-2xl md:text-4xl font-bold mb-4 text-center gradient-text"
         >
-          My Tech Stack
+          Skills
         </motion.h2>
 
-        <div className="grid md:grid-cols-2 gap-6 md:gap-12">
-          {skillCategories.map((category, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: i * 0.2 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-sm md:text-xl font-semibold mb-3 md:mb-6 text-cyan-300">
-                {category.title}
-              </h3>
-              <div className="flex flex-wrap gap-2 md:gap-4">
-                {category.skills.map((skill, idx) => {
-                  const Icon = skill.icon as React.ElementType;
-                  return (
-                    <motion.div
-                      key={idx}
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ type: 'spring', stiffness: 300 }}
-                      className={`flex flex-col justify-center items-center rounded-md md:rounded-xl bg-white/5 hover:bg-white/10 transition-all shadow-md p-2 md:p-4 ${scaleMap[skill.level as keyof typeof scaleMap]}`}
-                    >
-                      <Icon className="text-cyan-400 text-lg md:text-3xl mb-1 md:mb-2" />
-                      <span className="text-center px-1 md:px-2 leading-tight">{skill.name}</span>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1.5">
+          {skillCategories.map((category, i) => {
+            const spanClasses = {
+              col: 'lg:col-span-2',
+              row: 'lg:row-span-2',
+              both: 'lg:col-span-2 lg:row-span-2',
+            };
+            const Icon = category.icon;
+            
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                viewport={{ once: true }}
+                className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${category.color} p-[1px]
+                  ${category.span ? spanClasses[category.span] : ''}`}
+              >
+                <div className="relative h-full bg-dark/95 backdrop-blur-sm rounded-2xl p-3
+                  transition-colors duration-300 hover:bg-dark/90">
+                  {/* Header */}
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className={`p-1.5 rounded-lg bg-gradient-to-br ${category.color}`}>
+                      {/* @ts-ignore */}
+                      <Icon className="w-4 h-4 md:w-5 md:h-5" />
+                    </div>
+                    <h3 className="text-sm md:text-lg font-display font-semibold">
+                      {category.title}
+                    </h3>
+                  </div>
 
-        <p className="mt-6 md:mt-12 text-[8px] md:text-sm text-gray-500 text-center italic">
-          P.S. My strongest skills speak through tile size and glow.
-        </p>
+                  {/* Skills Bento Grid */}
+                  <div className="grid grid-cols-6 auto-rows-auto gap-1">
+                    {category.skills.map((skill, idx) => (
+                      <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{
+                          duration: 0.2,
+                          delay: idx * 0.03,
+                          type: 'spring',
+                          stiffness: 300,
+                        }}
+                        viewport={{ once: true }}
+                        className={`relative group/skill ${getSkillSpan(skill)}`}
+                      >
+                        <div className={`absolute inset-0 bg-gradient-to-br ${category.color} rounded-lg
+                          opacity-0 group-hover/skill:opacity-100 transition-opacity duration-300`} />
+                        <div className="relative h-full flex items-center justify-center px-2 py-1.5 bg-dark/50 backdrop-blur-sm rounded-lg
+                          border border-white/5 hover:border-white/10 transition-colors">
+                          <p className="text-[10px] md:text-sm text-center text-white/90 whitespace-nowrap">
+                            {skill}
+                          </p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

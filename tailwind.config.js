@@ -10,7 +10,28 @@ module.exports = {
         dark: '#121212',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        body: ['Outfit', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
+      letterSpacing: {
+        'wider': '0.1em',
+        'widest': '0.2em',
+      },
+      animation: {
+        'gradient': 'gradient 8s linear infinite',
+      },
+      keyframes: {
+        gradient: {
+          '0%, 100%': {
+            'background-size': '50% 50%',
+            'background-position': 'left center'
+          },
+          '50%': {
+            'background-size': '50% 50%',
+            'background-position': 'right center'
+          },
+        },
       },
     },
   },
