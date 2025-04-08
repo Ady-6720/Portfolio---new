@@ -78,7 +78,7 @@ const Skills: React.FC = () => {
                 transition={{ duration: 0.6, delay: i * 0.1 }}
                 viewport={{ once: true }}
                 className={`group relative overflow-hidden rounded-xl bg-gradient-to-br ${category.color} p-0.5
-                  ${colSpans}`}
+                  ${colSpans} transition-all duration-200 ease-in-out hover:shadow-lg hover:shadow-${category.color.split(' ')[2]}/20 hover:translate-y-[-2px] hover:scale-[1.01]`}
               >
                 <div className="relative h-full bg-dark/95 backdrop-blur-sm rounded-[10px] p-2.5
                   transition-colors duration-300 hover:bg-dark/90">
@@ -109,8 +109,10 @@ const Skills: React.FC = () => {
                         viewport={{ once: true }}
                         className="m-0.5 shrink-0"
                       >
-                        <div className="relative px-2 py-0.5 bg-dark/50 backdrop-blur-sm rounded-md
-                          border border-white/5 hover:border-white/10 transition-colors">
+                        <div className={`relative px-2 py-0.5 bg-dark/50 backdrop-blur-sm rounded-md
+                          border border-white/5 transition-all duration-150 ease-in-out
+                          hover:border-white/10 hover:scale-105 hover:ring-2 hover:ring-offset-1 hover:ring-offset-dark
+                          hover:ring-${category.color.split(' ')[2]}/50`}>
                           <p className="text-[10px] md:text-sm text-white/90">
                             {skill}
                           </p>

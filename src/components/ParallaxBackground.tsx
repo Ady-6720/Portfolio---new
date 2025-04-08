@@ -26,18 +26,15 @@ const ParallaxBackground: React.FC = () => {
 
     const animate = () => {
       // Smooth interpolation for grid movement
-      currentX += (mouseX - currentX) * 0.1;
-      currentY += (mouseY - currentY) * 0.1;
-
-      // Calculate rotation based on scroll position
-      const rotationAngle = (scrollY * 0.02) % 360;
-      const scale = 1 + Math.sin(scrollY * 0.002) * 0.1; // Scale between 0.9 and 1.1
+      currentX += (mouseX - currentX) * 0.05;
+      currentY += (mouseY - currentY) * 0.05;
 
       // Move the grid background based on cursor position and scroll
-      grid.style.transform = `rotate(${rotationAngle}deg) scale(${scale})`;
+      // Reduced movement speed and removed rotation
+      grid.style.transform = `translate3d(${currentX * 0.02}px, ${scrollY * 0.02}px, 0)`;
       grid.style.backgroundPosition = `
-        ${currentX * 0.05 + scrollY * 0.1}px 
-        ${currentY * 0.05 + scrollY * 0.1}px
+        ${currentX * 0.02}px 
+        ${currentY * 0.02 + scrollY * 0.05}px
       `;
 
       rafId = requestAnimationFrame(animate);
@@ -61,12 +58,12 @@ const ParallaxBackground: React.FC = () => {
     <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none">
       <div
         ref={gridRef}
-        className="absolute inset-0 w-[200vw] h-[200vh] top-[-50vh] left-[-50vw] origin-center transition-transform duration-100"
+        className="absolute inset-0 w-[200vw] h-[200vh] top-[-50vh] left-[-50vw] origin-center transition-transform duration-1000 ease-out will-change-transform"
         style={{
           backgroundColor: '#000000',
           backgroundImage: `
-            linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.05) 75%, rgba(255, 255, 255, 0.05) 76%, transparent 77%, transparent),
-            linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.05) 75%, rgba(255, 255, 255, 0.05) 76%, transparent 77%, transparent)
+            linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.03) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.03) 75%, rgba(255, 255, 255, 0.03) 76%, transparent 77%, transparent),
+            linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.03) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.03) 75%, rgba(255, 255, 255, 0.03) 76%, transparent 77%, transparent)
           `,
           backgroundSize: '50px 50px',
           willChange: 'transform, background-position',

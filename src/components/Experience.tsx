@@ -118,7 +118,7 @@ const Experience: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: true }}
-              className="relative mb-6 md:-mb-48 last:mb-0"
+              className="relative mb-12 md:mb-0 md:-mb-48 last:mb-0"
             >
               {/* Timeline dot with pulse effect */}
               <div className="absolute left-0 md:left-1/2 -translate-x-1/2 top-12 md:top-16 flex items-center justify-center">
